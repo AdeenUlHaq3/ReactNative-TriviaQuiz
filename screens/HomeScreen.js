@@ -7,7 +7,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button
 } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
@@ -15,6 +17,17 @@ import { MonoText } from '../components/StyledText';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
+  };
+
+  navigation = () => {
+    // const resetAction = StackActions.reset({
+    //   index: 0,
+    //   key: null,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Links' }),
+    //   ]
+    // });
+    // this.props.navigation.dispatch(resetAction);
   };
 
   render() {
@@ -52,6 +65,13 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Link Screen</Text>
+          <Button
+            title="Go to Link"
+            onPress={this.navigation}
+          />
+        </View>
 
         <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
