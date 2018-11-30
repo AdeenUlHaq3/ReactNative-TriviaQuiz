@@ -3,8 +3,9 @@ import { View, Button } from 'react-native';
 
 class Quiz extends React.Component {
     render() {
-        const { startQuiz } = this.props;
-
+        const { startQuiz } = this.props.navigation.state.params;
+        console.log(this.props);
+        
         return (
             <View>
                 <Button
