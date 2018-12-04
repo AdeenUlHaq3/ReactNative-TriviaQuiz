@@ -1,65 +1,52 @@
 import React from 'react';
-import { View, Button, Picker } from 'react-native';
+import { View, Button, Picker, ScrollView } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 import axios from 'axios';
 
 class Quiz extends React.Component {
-    navigationOptions = {
-        title: 'Quiz'
-    };
-
     state = {
         language: null,
-        isQuiz: false
+        isQuiz: false,
+        quizzes: []
     };
 
     startQuiz = () => {
-        this.setState({ isQuiz: true });
-        var instance = axios.create({
-            baseURL: 'https://opentdb.com',
-            timeout: 10000
-          });
-        instance.get('/api.php?amount=10&category=9&difficulty=easy&type=multiple')
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+        axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple')
+            .then(response => {
+                this.setState({
+                    isQuiz: true,
+                    quizzes: response.data.results
+                });
             });
     };
 
     render() {
         const {
             language,
-            isQuiz
+            isQuiz,
+            quizzes
         } = this.state;
 
         return (
             isQuiz
                 ?
-                <Container>
-                    <Content padder>
-                        <Card>
-                            <CardItem header bordered>
-                                <Text>NativeBase</Text>
-                            </CardItem>
-                            <CardItem bordered>
-                                <Body>
-                                    <Text>
-                                        NativeBase is a free and open source framework that enable
-                                        developers to build
-                                        high-quality mobile apps using React Native iOS and Android
-                                        apps
-                                        with a fusion of ES6.
-                </Text>
-                                </Body>
-                            </CardItem>
-                            <CardItem footer bordered>
-                                <Text>GeekyAnts</Text>
-                            </CardItem>
-                        </Card>
-                    </Content>
-                </Container>
+                quizzes.map(quiz =>
+                    <Container key={quiz.question}>
+                        <Content padder>
+                            <Card>
+                                <CardItem header bordered>
+                                    <Text>{quiz.question}</Text>
+                                </CardItem>
+                                <CardItem bordered>
+                                    <Body>
+                                        <Text>1. {quiz.correct_answer}</Text>
+                                        {quiz.incorrect_answers.map((incorrect_answer, index) => <Text key={incorrect_answer}>{index+2}. {incorrect_answer}</Text>)}
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        </Content>
+                    </Container>
+                )
                 :
                 <View>
                     <Picker
