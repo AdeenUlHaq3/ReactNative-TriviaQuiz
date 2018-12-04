@@ -21,14 +21,9 @@ export default class HomeScreen extends React.Component {
       const result = await FaceDetector.detectFacesAsync(photo.uri, options);
       
       if (result.faces.length) {
-        this.props.navigation.navigate('Quiz', {startQuiz: this.startQuiz});
+        this.props.navigation.navigate('Quiz');
       }
     }
-  };
-
-  startQuiz = () => {
-    console.log('a');
-    
   };
 
   render() {
