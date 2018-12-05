@@ -7,17 +7,18 @@ class Quiz extends React.Component {
     state = {
         language: null,
         isQuiz: false,
-        quizzes: []
+        quizzes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     };
 
     startQuiz = () => {
-        axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple')
-            .then(response => {
-                this.setState({
-                    isQuiz: true,
-                    quizzes: response.data.results
-                });
-            });
+        this.setState({ isQuiz: true })
+        // axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple')
+        //     .then(response => {
+        //         this.setState({
+        //             isQuiz: true,
+        //             quizzes: response.data.results
+        //         });
+        //     });
     };
 
     render() {
@@ -30,23 +31,36 @@ class Quiz extends React.Component {
         return (
             isQuiz
                 ?
-                quizzes.map(quiz =>
-                    <Container key={quiz.question}>
-                        <Content padder>
-                            <Card>
-                                <CardItem header bordered>
-                                    <Text>{quiz.question}</Text>
-                                </CardItem>
-                                <CardItem bordered>
-                                    <Body>
+                <ScrollView contentContainerStyle={{justifyContent: 'flex-start', marginTop: 0}}>
+                    {
+                        quizzes.map((quiz, index) =>
+                            <Container key={index}>
+                                <Content padder>
+                                    <Card>
+                                        <CardItem header bordered>
+                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
+                                            {/* <Text>{quiz.question}</Text> */}
+                                        </CardItem>
+                                        <CardItem bordered>
+                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
+                                            {/* <Body>
                                         <Text>1. {quiz.correct_answer}</Text>
                                         {quiz.incorrect_answers.map((incorrect_answer, index) => <Text key={incorrect_answer}>{index+2}. {incorrect_answer}</Text>)}
-                                    </Body>
-                                </CardItem>
-                            </Card>
-                        </Content>
-                    </Container>
-                )
+                                    </Body> */}
+                                        </CardItem>
+                                        <CardItem bordered>
+                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
+                                            {/* <Body>
+                                        <Text>1. {quiz.correct_answer}</Text>
+                                        {quiz.incorrect_answers.map((incorrect_answer, index) => <Text key={incorrect_answer}>{index+2}. {incorrect_answer}</Text>)}
+                                    </Body> */}
+                                        </CardItem>
+                                    </Card>
+                                </Content>
+                            </Container>
+                        )
+                    }
+                </ScrollView>
                 :
                 <View>
                     <Picker
