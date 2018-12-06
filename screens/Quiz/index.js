@@ -1,59 +1,78 @@
 import React from 'react';
 import { View, Button, Picker, ScrollView } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body } from "native-base";
+import { Container, Content, Card, CardItem, Text, Body, ListItem, Radio, Right, Left } from "native-base";
 import axios from 'axios';
 
 class Quiz extends React.Component {
     state = {
         language: null,
         isQuiz: false,
-        quizzes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        quizzes: [],
+        radio: false
     };
 
     startQuiz = () => {
-        this.setState({ isQuiz: true })
-        // axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple')
-        //     .then(response => {
-        //         this.setState({
-        //             isQuiz: true,
-        //             quizzes: response.data.results
-        //         });
-        //     });
+        axios.get('https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple')
+            .then(response => {
+                this.setState({
+                    isQuiz: true,
+                    quizzes: response.data.results
+                });
+            });
+    };
+
+    handleRadio = (e) => {
+        const {radio} = this.state;
+        this.setState({ radio: !radio })
     };
 
     render() {
         const {
             language,
             isQuiz,
-            quizzes
+            quizzes,
+            radio
         } = this.state;
 
         return (
             isQuiz
                 ?
-                <ScrollView contentContainerStyle={{justifyContent: 'flex-start', marginTop: 0}}>
+                <ScrollView contentContainerStyle={{ justifyContent: 'flex-start', marginTop: 0 }}>
                     {
                         quizzes.map((quiz, index) =>
                             <Container key={index}>
                                 <Content padder>
                                     <Card>
                                         <CardItem header bordered>
-                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
-                                            {/* <Text>{quiz.question}</Text> */}
+                                            <Text>{quiz.question}</Text>
                                         </CardItem>
                                         <CardItem bordered>
-                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
-                                            {/* <Body>
-                                        <Text>1. {quiz.correct_answer}</Text>
-                                        {quiz.incorrect_answers.map((incorrect_answer, index) => <Text key={incorrect_answer}>{index+2}. {incorrect_answer}</Text>)}
-                                    </Body> */}
-                                        </CardItem>
-                                        <CardItem bordered>
-                                            <Text>sdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdassdasdasdasdasdasdasdassadasdasdasdasdasdasdasdasdasdas</Text>
-                                            {/* <Body>
-                                        <Text>1. {quiz.correct_answer}</Text>
-                                        {quiz.incorrect_answers.map((incorrect_answer, index) => <Text key={incorrect_answer}>{index+2}. {incorrect_answer}</Text>)}
-                                    </Body> */}
+                                            <Body>
+                                                <ListItem key={quiz.correct_answer}>
+                                                    <Text>1. {quiz.correct_answer}</Text>
+                                                    <Radio
+                                                        name={quiz.correct_answer}
+                                                        color={"#f0ad4e"}
+                                                        selectedColor={"#5cb85c"}
+                                                        selected={radio}
+                                                        onPress={this.handleRadio}
+                                                    />
+                                                </ListItem>
+                                                {
+                                                    quiz.incorrect_answers.map((incorrect_answer, index) =>
+                                                        <ListItem key={incorrect_answer}>
+                                                            <Text>{index + 2}. {incorrect_answer}</Text>
+                                                            <Radio
+                                                                name={incorrect_answer}
+                                                                color={"#f0ad4e"}
+                                                                selectedColor={"#5cb85c"}
+                                                                selected={radio}
+                                                                onPress={this.handleRadio}
+                                                            />
+                                                        </ListItem>
+                                                    )
+                                                }
+                                            </Body>
                                         </CardItem>
                                     </Card>
                                 </Content>
