@@ -22,7 +22,7 @@ class Quiz extends React.Component {
     };
 
     handleRadio = (e) => {
-        const {radio} = this.state;
+        const { radio } = this.state;
         this.setState({ radio: !radio })
     };
 
@@ -37,49 +37,42 @@ class Quiz extends React.Component {
         return (
             isQuiz
                 ?
-                <ScrollView contentContainerStyle={{ justifyContent: 'flex-start', marginTop: 0 }}>
-                    {
-                        quizzes.map((quiz, index) =>
-                            <Container key={index}>
-                                <Content padder>
-                                    <Card>
-                                        <CardItem header bordered>
-                                            <Text>{quiz.question}</Text>
-                                        </CardItem>
-                                        <CardItem bordered>
-                                            <Body>
-                                                <ListItem key={quiz.correct_answer}>
-                                                    <Text>1. {quiz.correct_answer}</Text>
-                                                    <Radio
-                                                        name={quiz.correct_answer}
-                                                        color={"#f0ad4e"}
-                                                        selectedColor={"#5cb85c"}
-                                                        selected={radio}
-                                                        onPress={this.handleRadio}
-                                                    />
-                                                </ListItem>
-                                                {
-                                                    quiz.incorrect_answers.map((incorrect_answer, index) =>
-                                                        <ListItem key={incorrect_answer}>
-                                                            <Text>{index + 2}. {incorrect_answer}</Text>
-                                                            <Radio
-                                                                name={incorrect_answer}
-                                                                color={"#f0ad4e"}
-                                                                selectedColor={"#5cb85c"}
-                                                                selected={radio}
-                                                                onPress={this.handleRadio}
-                                                            />
-                                                        </ListItem>
-                                                    )
-                                                }
-                                            </Body>
-                                        </CardItem>
-                                    </Card>
-                                </Content>
-                            </Container>
-                        )
-                    }
-                </ScrollView>
+                <Container>
+                    <Content padder>
+                        <Card>
+                            <CardItem header bordered>
+                                <Text>{quizzes[0].question}</Text>
+                            </CardItem>
+                            <CardItem bordered>
+                                <Body>
+                                    <ListItem>
+                                        <Radio
+                                            color={"#f0ad4e"}
+                                            selectedColor={"#5cb85c"}
+                                            selected={radio}
+                                            onPress={this.handleRadio}
+                                        />
+                                        <Text> {quizzes[0].correct_answer}</Text>
+                                    </ListItem>
+                                    {
+                                        quizzes[0].incorrect_answers.map((incorrect_answer, index) =>
+                                            <ListItem key={incorrect_answer}>
+                                                <Radio
+                                                    name={incorrect_answer}
+                                                    color={"#f0ad4e"}
+                                                    selectedColor={"#5cb85c"}
+                                                    selected={radio}
+                                                    onPress={this.handleRadio}
+                                                />
+                                                <Text> {incorrect_answer}</Text>
+                                            </ListItem>
+                                        )
+                                    }
+                                </Body>
+                            </CardItem>
+                        </Card>
+                    </Content>
+                </Container>
                 :
                 <View>
                     <Picker
